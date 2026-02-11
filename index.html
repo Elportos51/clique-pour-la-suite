@@ -1,7 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💘</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#ff6a88,#ff99ac,#ffc3a0);
+overflow:hidden;
+}
+
+/* Fond cœurs */
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+z-index:0;
+overflow:hidden;
+}
+.bg span{
+position:absolute;
+opacity:0.2;
+animation:float 8s linear infinite;
+}
+@keyframes float{
+0%{transform:translateY(100vh) scale(1);}
+100%{transform:translateY(-10vh) scale(1.4);}
+}
+
+/* Carte centrale */
+.card{
+position:relative;
+z-index:1;
+background:white;
+padding:30px 20px;
+border-radius:25px;
+width:90%;
+max-width:380px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1{
+font-size:20px;
+margin-bottom:25px;
+color:#ff2d55;
+}
+
+.area{
+position:relative;
+height:150px;
+}
+
+button{
+padding:14px 25px;
+border:none;
+border-radius:40px;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+transition:0.25s ease;
+position:absolute;
+}
+
+#yes{
+background:#ff2d55;
+color:white;
+left:50%;
+bottom:0;
+transform:translateX(-50%);
+}
+
+#no{
+background:#e5e5ea;
+color:#333;
+top:0;
+left:50%;
+transform:translateX(-50%);
+}
+
+#counter{
+margin-top:15px;
+font-size:12px;
+color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="card">
+<h1>Veux-tu être ma Valentine ? 💘</h1>
+
+<div class="area" id="area">
+<button id="no">Non 😏</button>
+<button id="yes">Oui ❤️</button>
+</div>
+
+<div id="counter">Tentatives de refus : 0</div>
+</div>
+
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const counter=document.getElementById("counter");
+const area=document.getElementById("area");
+
+let refus=0;
+let scale=1;
+
+/* Création fond cœurs */
+for(let i=0;i<30;i++){
+let heart=document.createElement("span");
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=(14+Math.random()*22)+"px";
+heart.style.animationDuration=(6+Math.random()*6)+"s";
+document.getElementById("bg").appendChild(heart);
+}
+
+/* NON bouge uniquement dans la zone */
+function moveNo(){
+refus++;
+counter.innerHTML="Tentatives de refus : "+refus+" 😈";
+
+scale+=0.08;
+yesBtn.style.transform="translateX(-50%) scale("+scale+")";
+
+let maxX=area.clientWidth-noBtn.offsetWidth;
+let maxY=area.clientHeight-noBtn.offsetHeight;
+
+let x=Math.random()*maxX;
+let y=Math.random()*maxY;
+
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+}
+
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("click",moveNo);
+
+/* Explosion + message final */
 yesBtn.addEventListener("click",function(){
 
+/* Explosion cœurs */
+for(let i=0;i<80;i++){
+let heart=document.createElement("div");
+heart.innerHTML="💖";
+heart.style.position="fixed";
+heart.style.left=Math.random()*100+"%";
+heart.style.top=Math.random()*100+"%";
+heart.style.fontSize=(20+Math.random()*25)+"px";
+heart.style.animation="float 3s ease-out forwards";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),3000);
+}
+
+setTimeout(()=>{
 document.body.innerHTML=`
-<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#ff758c,#ff7eb3,#ffb199);font-family:-apple-system;text-align:center;padding:20px;">
+<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#ff6a88,#ff99ac,#ffc3a0);font-family:-apple-system;text-align:center;padding:20px;">
 <div style="background:white;padding:35px;border-radius:25px;max-width:380px;box-shadow:0 15px 40px rgba(0,0,0,0.2);">
 <h1 style="color:#ff2d55;">C’est officiel 😍</h1>
 <p style="font-size:19px;margin-top:20px;">
@@ -15,4 +182,10 @@ C’est impossible d’annuler… c’est déjà réservé 😼😉🧡
 </div>
 </div>
 `;
+},700);
+
 });
+</script>
+
+</body>
+</html>
